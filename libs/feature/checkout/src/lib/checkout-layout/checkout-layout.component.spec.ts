@@ -1,34 +1,16 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CheckoutLayoutComponent } from './checkout-layout.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MaterialModule } from '@buyonline/shared/ui/material';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { UtilsService } from '@buyonline/shared/data-access/services';
 // class RouterStub {
 //   url = '';
 //   navigate(commands: any[], extras?: any) {}
 // }
-class MatSnackBarMock {
-  open() {
-    return {
-      OnAction() {
-        return of();
-      },
-      afterDismissed() {
-        return of();
-      },
-    };
-  }
-}
 describe('CheckoutLayoutComponent', () => {
   let component: CheckoutLayoutComponent;
   let fixture: ComponentFixture<CheckoutLayoutComponent>;
@@ -48,7 +30,7 @@ describe('CheckoutLayoutComponent', () => {
       ],
       providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: MatSnackBar, useClass: MatSnackBarMock },
+        MatSnackBar,
         UtilsService,
       ],
     }).compileComponents();
@@ -59,17 +41,6 @@ describe('CheckoutLayoutComponent', () => {
     component = fixture.componentInstance;
     TestBed.inject(MatSnackBar);
     service = TestBed.inject(UtilsService);
-    spyOn(component.snackBar, 'open').and.returnValue({
-      onAction() {
-        return of();
-      },
-      afterDismissed() {
-        return of();
-      },
-      dismissWithAction() {
-        return of();
-      },
-    });
     fixture.detectChanges();
   });
 
@@ -162,6 +133,26 @@ describe('CheckoutLayoutComponent', () => {
       By.css('.btn-submit-order')
     );
     buttonElement.nativeElement.click();
+    expect(service.modifybooksAppJson?.myCollection?.length).toBe(1);
+  });
+  it('should click submitOrder and check mycollection updated', (done) => {
+    component.checkoutForm.setValue({
+      name: 'asdad',
+      email: 'asdad@gmail.com',
+      phoneNumber: '1234567891',
+      address: 'asdad',
+    });
+    fixture.detectChanges();
+    service.modifybooksAppJson.cartItems = [{ id: '1' }];
+    const buttonElement = fixture.debugElement.query(
+      By.css('.btn-submit-order')
+    );
+    buttonElement.nativeElement.click();
+    component.snackBar._openedSnackBarRef?.onAction().subscribe(() => {
+      expect(mockRouter.navigate).toBeCalledWith(['/my-collection']);
+      done();
+    });
+    component.snackBar._openedSnackBarRef?.dismissWithAction();
     expect(service.modifybooksAppJson?.myCollection?.length).toBe(1);
   });
 });
