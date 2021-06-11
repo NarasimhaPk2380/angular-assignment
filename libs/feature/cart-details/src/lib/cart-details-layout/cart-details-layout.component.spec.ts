@@ -54,19 +54,6 @@ describe('CartDetailsLayoutComponent', () => {
     buttonElement.nativeElement.click();
     expect(utilsSrvc.booksAppJson?.cartItems?.length).toBe(1);
   });
-
-  it('should check all star-doted when rating is zero', () => {
-    spyOn(acRoute, 'data').and.returnValue(
-      of([{ id: '12', volumeInfo: { rating: 2 } }])
-    );
-    fixture.detectChanges();
-    console.log(component.bookDetailsJson);
-    const ratingEle = fixture.debugElement.queryAll(
-      By.css('.rating button span')
-    );
-    // console.log(ratingEle.length);
-    expect(ratingEle).toBe('abc');
-  });
   it('should check publisher is rendered', () => {
     fixture.detectChanges();
     const ratingEle = fixture.debugElement.query(By.css('.publisher'));
