@@ -3,4 +3,9 @@
   .active-link {
     background: #c2185b;
   }
+  @media only screen and (max-width: 600px) {
+    .full-width {
+      display: none;
+    }
+  }
 }

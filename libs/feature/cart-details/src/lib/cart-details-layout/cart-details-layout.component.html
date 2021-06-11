@@ -1,9 +1,10 @@
-<div class="book--details">
-    <img class="book--details--image" [src]="bookDetailsJson?.volumeInfo?.imageLinks?.thumbnail">
-    <div class="book--details--text">
+<div class="book--details" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start" fxLayoutAlign.md="center">
+  <div fxFlex="30%" fxFlex.sm="100%" class="img-container">
+  <img class="book--details--image" [src]="bookDetailsJson?.volumeInfo?.imageLinks?.thumbnail">
+</div>  
+    <div class="book--details--text" fxFlex="60%" fxFlex.sm="100%">
         <ul>
-            <li>
-                <!-- <label for="rating">Rating</label> -->
+            <li class="rating">
                 <p class="label">Rating</p>
                 <button mat-icon-button color="accent" *ngFor="let ratingId of ratingArr;index as i">
                     <span class="material-icons">{{i.toString() | starRating :availableRating.toString()}}</span>
@@ -11,7 +12,7 @@
               </li>
             <li>
               <p class="label">Publisher</p>
-               <p>{{bookDetailsJson?.volumeInfo?.publisher}}</p>
+               <p class="publisher">{{bookDetailsJson?.volumeInfo?.publisher}}</p>
             </li>
             <li>
               <p class="label">Page Count</p>
@@ -30,8 +31,8 @@
                 <p [innerHTML]="bookDetailsJson?.volumeInfo?.authors?.toString()"></p>
               </li>
               <li>
-                <button  mat-raised-button color="primary" (click)="addToCart()">Add to cart</button>&nbsp;
-                <button  mat-raised-button color="primary" (click)="addToCart()" routerLink="/checkout">Buy</button>
+                <button  mat-raised-button color="primary" (click)="addToCart()" class="add-to-cart">Add to cart</button>&nbsp;
+                <button  mat-raised-button color="primary" (click)="addToCart()" routerLink="/checkout" class="checkout">Buy</button>
               </li>
         </ul>
     </div>

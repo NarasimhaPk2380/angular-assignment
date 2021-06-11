@@ -3,7 +3,6 @@
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  border: 1px solid #000;
   // height: 100vh;
   .form--field {
     width: 100%;
@@ -15,6 +14,8 @@
     height: calc(100% - 20%);
   }
   .checkout--cart {
-    float: right;
+    margin-bottom: 25px;
+    justify-content: end;
+    text-align: end;
   }
 }

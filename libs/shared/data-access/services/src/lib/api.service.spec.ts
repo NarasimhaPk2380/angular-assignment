@@ -4,12 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { book } from '@buyonline/shared/data-access/models';
-import { ApiService } from '@buyonline/shared/data-access/services';
+import { ApiService } from './api.service';
 describe('ApiService', () => {
   let service: ApiService;
   let httpTestingController: HttpTestingController;
-  let baseUrl: string = 'https://www.googleapis.com/books/v1/volumes';
-  let book = {
+  const baseUrl = 'https://www.googleapis.com/books/v1/volumes';
+  const book = {
     id: 2,
     volumeInfo: {
       title: 'Angular',
@@ -66,9 +66,14 @@ describe('ApiService', () => {
   });
 
   it('Should display error', () => {
-    let errorObj: any = {};
+    let errorObj = {
+      status: '',
+      error: '',
+    };
     service.apiRequest('GET', {}, {}).subscribe(
-      (data) => {},
+      (data) => {
+        console.log(data);
+      },
       (err) => {
         errorObj = err;
       }

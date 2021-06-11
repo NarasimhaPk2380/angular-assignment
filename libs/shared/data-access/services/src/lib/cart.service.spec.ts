@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { appSubject } from '@buyonline/shared/data-access/models';
-import {
-  ApiService,
-  CartService,
-} from '@buyonline/shared/data-access/services';
+import { CartService } from './cart.service';
+import { ApiService } from './api.service';
 import { from, of, Subject } from 'rxjs';
 import { UtilsService } from './utils.service';
 
@@ -11,7 +9,8 @@ const UtilsServiceMock = {
   appSubject$: new Subject<appSubject>(),
 };
 const ApiServiceMock = {
-  apiRequest(method: string, body?: any, params?: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  apiRequest(method: string, body?: any) {
     if (!body?.id) {
       return from([
         { id: '12', items: [{ volumeInfo: { title: 'Angular' } }] },
@@ -54,6 +53,13 @@ describe('CartService', () => {
     const book$ = service.searchBooks(of('ang'));
     book$.subscribe((data) => {
       expect(data?.length).toBe(1);
+      done();
+    });
+  });
+  it('Should get the empty when searchtext is empty', (done) => {
+    const book$ = service.searchBooks(of(''));
+    book$.subscribe((data) => {
+      expect(data?.length).toBe(0);
       done();
     });
   });

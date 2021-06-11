@@ -17,7 +17,6 @@ export class UtilsService {
     myCollection: [],
     billingAddress: {},
   };
-  constructor() {}
 
   set modifybooksAppJson(data: booksApp) {
     this.booksAppJson = { ...data };
@@ -31,22 +30,22 @@ export class UtilsService {
   }
 
   addItemToCart(data: book) {
-    const isItemAvailableInList = this.booksAppJson?.cartItems?.some(
-      (book) => book?.id === data?.id
+    const isItemAvailableInList = this.booksAppJson.cartItems.some(
+      (book) => book.id === data.id
     );
-    !isItemAvailableInList ? this.booksAppJson?.cartItems?.push(data) : '';
+    !isItemAvailableInList ? this.booksAppJson.cartItems.push(data) : '';
     this.appSubject$.next({ type: 'addToCart', value: '' });
   }
   deleteItemFromCart(bookId: string) {
-    const itemIndex = this.booksAppJson?.cartItems?.findIndex(
-      (book) => book?.id === bookId
+    const itemIndex = this.booksAppJson.cartItems.findIndex(
+      (book) => book.id === bookId
     );
-    this.booksAppJson?.cartItems?.splice(itemIndex, 1);
+    this.booksAppJson.cartItems.splice(itemIndex, 1);
     this.appSubject$.next({ type: 'addToCart', value: '' });
   }
 
   submitOrder(billingAddress: billingAddress) {
-    this.modifybooksAppJson = {
+    this.booksAppJson = {
       ...this.modifybooksAppJson,
       billingAddress,
       myCollection: [...this.modifybooksAppJson.cartItems],

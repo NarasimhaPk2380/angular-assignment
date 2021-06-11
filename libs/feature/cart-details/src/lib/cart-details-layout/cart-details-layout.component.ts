@@ -20,7 +20,8 @@ export class CartDetailsLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.acRoute.data.subscribe((booksData) => {
       this.bookDetailsJson = { ...booksData[0] };
-      this.availableRating = this.bookDetailsJson?.volumeInfo?.rating || 0;
+      this.availableRating = this.bookDetailsJson.volumeInfo?.rating || 0;
+      //this.availableRating = 4;
     });
   }
 

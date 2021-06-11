@@ -39,7 +39,7 @@ export class CheckoutLayoutComponent implements OnInit {
 
   submitCheckout(): void {
     this.utilsSrvc.submitOrder({ ...this.checkoutForm.value });
-    let snackBarRef = this.snackBar.open(
+    const snackBarRef = this.snackBar.open(
       'Your order is placed successfully....',
       'Go to my collection',
       {

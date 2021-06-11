@@ -37,7 +37,7 @@
         </mat-form-field>
       </mat-card-content>
       <div fxLayout="column" fxLayoutGap="10px">
-        <button mat-raised-button color="primary" class="btn-block" [disabled]="checkoutForm?.invalid" (click)="submitCheckout()">Submit</button>
+        <button mat-raised-button color="primary" class="btn-submit-order" [disabled]="checkoutForm?.invalid" (click)="submitCheckout()">Submit</button>
         <span class="success--text" *ngIf="isFormSubmitted">Your order is placed, Please check your order in <a routerLink="/my-collection">My collection</a></span>
       </div>
     </form>

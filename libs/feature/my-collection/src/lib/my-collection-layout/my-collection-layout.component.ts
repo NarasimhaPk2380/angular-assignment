@@ -10,15 +10,13 @@ import { book } from '@buyonline/shared/data-access/models';
 })
 export class MyCollectionLayoutComponent implements OnInit {
   myCollectionList: Array<book> = [];
-  constructor(private utilsSrvc: UtilsService, private router: Router) {
+  constructor(private utilsSrvc: UtilsService, private router: Router) {}
+
+  ngOnInit(): void {
     this.updateCollectionItems();
   }
 
-  ngOnInit(): void {}
-
   updateCollectionItems(): void {
-    this.myCollectionList = [
-      ...(this.utilsSrvc.modifybooksAppJson?.myCollection || []),
-    ];
+    this.myCollectionList = [...this.utilsSrvc.modifybooksAppJson.myCollection];
   }
 }

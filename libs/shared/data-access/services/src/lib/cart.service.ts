@@ -21,6 +21,7 @@ export class CartService {
   // API calls invoking
   searchBooks(searchText$: Observable<string>): Observable<Array<book>> {
     return searchText$.pipe(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       tap((_) =>
         this.utilSrvc.appSubject$.next({
           type: 'spinner',
@@ -32,6 +33,7 @@ export class CartService {
       switchMap((searchText) =>
         searchText
           ? this.apiService.apiRequest('GET', {}, { q: searchText }).pipe(
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               tap((_) =>
                 this.utilSrvc.appSubject$.next({
                   type: 'spinner',

@@ -1,8 +1,8 @@
 <div class="main-container">
     <div class="empty--cart" *ngIf="!cartItemsList?.length">
-        <p>Cart is empty, <a routerLink="search">Please go to search</a></p>
+        <p><span id="empty">Cart is empty</span>, <a routerLink="search">Please go to search</a></p>
     </div>
-    <div class="checkout--cart" *ngIf="cartItemsList?.length">
+    <div class="checkout--cart" *ngIf="cartItemsList?.length" fxLayout="row" fxLayoutAlign="end">
          <button mat-raised-button color="primary" routerLink="/checkout">Proceed to checkout</button>
     </div>
 

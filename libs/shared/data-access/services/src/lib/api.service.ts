@@ -9,13 +9,16 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root', // Injects into root application , no need to import in app module
 })
 export class ApiService {
-  baseUrl: string = 'https://www.googleapis.com/books/v1/volumes';
+  baseUrl = 'https://www.googleapis.com/books/v1/volumes';
   constructor(private http: HttpClient) {}
 
   apiRequest(
     method: string, // Method of request
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Observable<any> {
     let url;
     if (body?.id) {
@@ -24,7 +27,7 @@ export class ApiService {
       url = this.baseUrl;
     }
     let availparams = new HttpParams();
-    for (let key in params) {
+    for (const key in params) {
       availparams = availparams.append(key, params[key]);
     }
     return this.http

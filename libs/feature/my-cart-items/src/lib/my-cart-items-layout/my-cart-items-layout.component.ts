@@ -10,15 +10,13 @@ import { book } from '@buyonline/shared/data-access/models';
 })
 export class MyCartItemsLayoutComponent implements OnInit {
   cartItemsList: Array<book> = [];
-  constructor(private utilsSrvc: UtilsService, private router: Router) {
+  constructor(private utilsSrvc: UtilsService, private router: Router) {}
+
+  ngOnInit(): void {
     this.updateCartItems();
   }
 
-  ngOnInit(): void {}
-
   updateCartItems(): void {
-    this.cartItemsList = [
-      ...(this.utilsSrvc.modifybooksAppJson?.cartItems || []),
-    ];
+    this.cartItemsList = [...this.utilsSrvc.modifybooksAppJson.cartItems];
   }
 }

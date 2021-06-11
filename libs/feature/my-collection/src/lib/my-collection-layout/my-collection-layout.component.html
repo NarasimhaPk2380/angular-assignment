@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="empty--collection" *ngIf="!myCollectionList?.length">
-        <p>Collection is empty, <a routerLink="search">Please go to search</a></p>
+        <p><span id="empty">Collection is empty</span>, <a routerLink="search">Please go to search</a></p>
     </div>
     <buyonline-cards-layout [cardsList]="myCollectionList" showDelete='false' (getEventFromCard)="updateCollectionItems()"></buyonline-cards-layout>
 </div>

@@ -9,7 +9,7 @@ import { UtilsService } from '@buyonline/shared/data-access/services';
   styleUrls: ['./navbar-layout.component.scss'],
 })
 export class NavbarLayoutComponent implements OnInit {
-  availableCartItem: number = 0;
+  availableCartItem = 0;
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
 
@@ -17,8 +17,10 @@ export class NavbarLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.utilsSrvc.bookAppSubject$.subscribe((event: appSubject) => {
-      if (event?.type === 'addToCart') {
-        this.availableCartItem = this.utilsSrvc.modifybooksAppJson?.cartItems?.length;
+      if (event.type === 'addToCart') {
+        this.availableCartItem = this.utilsSrvc.modifybooksAppJson.cartItems.length;
+      } else {
+        this.availableCartItem = 0;
       }
     });
   }

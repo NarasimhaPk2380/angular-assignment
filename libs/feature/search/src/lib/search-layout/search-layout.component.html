@@ -4,7 +4,7 @@
             <mat-form-field class="form--field">
                 <mat-icon matPrefix>book</mat-icon>
                 <input type="text" placeholder="Search for books" aria-label="books" matInput
-                    (keyup)="bookSearchText$.next(bookrefId?.value)" #bookrefId>
+                    (keyup)="bookSearchText$.next(bookrefId?.value)" #bookrefId id="searchInput">
                 <span matSuffix class="material-icons">search</span>
             </mat-form-field>
             <p *ngIf="bookrefId.value">

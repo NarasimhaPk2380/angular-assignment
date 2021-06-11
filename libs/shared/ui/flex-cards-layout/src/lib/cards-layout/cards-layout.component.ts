@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { UtilsService } from '@buyonline/shared/data-access/services';
 import { book } from '@buyonline/shared/data-access/models';
@@ -8,14 +8,12 @@ import { book } from '@buyonline/shared/data-access/models';
   templateUrl: './cards-layout.component.html',
   styleUrls: ['./cards-layout.component.scss'],
 })
-export class CardsLayoutComponent implements OnInit {
+export class CardsLayoutComponent {
   @Input() cardsList: Array<book> = [];
-  @Input() showDelete: string = 'false';
+  @Input() showDelete = 'false';
   @Output() getEventFromCard = new EventEmitter();
 
   constructor(private router: Router, private utilsSrvc: UtilsService) {}
-
-  ngOnInit(): void {}
 
   goToDetailsPage(bookId: string) {
     this.router.navigate([`/cart-details/${bookId}`]);
@@ -26,7 +24,7 @@ export class CardsLayoutComponent implements OnInit {
     this.getEventFromCard.emit('');
   }
 
-  trackByMethod(index: number, el: any): string {
+  trackByMethod(index: number, el: book): string {
     return el.id;
   }
 }

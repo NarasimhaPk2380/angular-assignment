@@ -1,28 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { UtilsService } from '@buyonline/shared/data-access/services';
 import { CardsLayoutComponent } from './cards-layout.component';
-
-class RouterStub {
-  url = '';
-  navigate(commands: any[], extras?: any) {}
-}
 
 describe('CardsLayoutComponent', () => {
   let component: CardsLayoutComponent;
   let fixture: ComponentFixture<CardsLayoutComponent>;
-
+  let service: UtilsService;
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate'),
+  };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CardsLayoutComponent],
       imports: [RouterTestingModule],
-      providers: [{ provide: Router, useClass: RouterStub }],
+      providers: [{ provide: Router, useValue: mockRouter }, UtilsService],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CardsLayoutComponent);
     component = fixture.componentInstance;
+    service = TestBed.inject(UtilsService);
+    component.cardsList = [
+      { id: '1', volumeInfo: { title: 'abc' } },
+      { id: '2', volumeInfo: { title: 'xyz' } },
+    ];
+    service.booksAppJson.cartItems = [
+      { id: '1', volumeInfo: { title: 'abc' } },
+      { id: '2', volumeInfo: { title: 'xyz' } },
+    ];
     fixture.detectChanges();
   });
 
@@ -30,28 +39,50 @@ describe('CardsLayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call goToDetailsPage(bookId: string)', () => {
-    spyOn(component, 'goToDetailsPage').and.callThrough();
-    component.goToDetailsPage('2222');
-    // fixture.detectChanges();
-    expect(component.goToDetailsPage).toHaveBeenCalled();
+  it('should display n cards in the list when booksList length is n', () => {
+    let titleList = fixture.debugElement.queryAll(By.css('.title'));
+    titleList = titleList.map((item) => {
+      return item?.nativeElement?.textContent;
+    });
+    expect(titleList).toEqual(['abc', 'xyz']);
   });
 
-  it('should call deleteCartItem(bookId: string)', () => {
-    spyOn(component, 'deleteCartItem').and.callThrough();
-    component.deleteCartItem('1');
-    expect(component.deleteCartItem).toHaveBeenCalled();
+  it('should show delete button when showDelete is true', () => {
+    component.showDelete = 'true';
+    fixture.detectChanges();
+    let deleteBtnsList = fixture.debugElement.queryAll(By.css('#deleteBtnId'));
+    deleteBtnsList = deleteBtnsList.map((item) => {
+      return item?.nativeElement?.textContent;
+    });
+    expect(deleteBtnsList.length).toBe(2);
+  });
+  it('should hide delete button when showDelete is false', () => {
+    component.showDelete = 'false';
+    fixture.detectChanges();
+    let deleteBtnsList = fixture.debugElement.queryAll(By.css('#deleteBtnId'));
+    deleteBtnsList = deleteBtnsList.map((item) => {
+      return item?.nativeElement?.textContent;
+    });
+    expect(deleteBtnsList.length).toBe(0);
   });
 
-  it('should call deleteCartItem(bookId: string)', () => {
-    spyOn(component, 'deleteCartItem').and.callThrough();
-    component.deleteCartItem('1');
-    expect(component.deleteCartItem).toHaveBeenCalled();
+  it('should delete cart items on clicking particularId', () => {
+    component.showDelete = 'true';
+    fixture.detectChanges();
+    const deleteBtnsList = fixture.debugElement.queryAll(
+      By.css('#deleteBtnId')
+    );
+    deleteBtnsList[0].nativeElement.click();
+    expect(service.booksAppJson.cartItems.length).toBe(1);
   });
-
-  it('should call trackByMethod(index: number, el: any)', () => {
-    spyOn(component, 'trackByMethod').and.callThrough();
-    component.trackByMethod(1, { id: 'yyy' });
-    expect(component.trackByMethod).toHaveBeenCalled();
+  it('should invoke goToDetailsPage', () => {
+    fixture.detectChanges();
+    const itemContainerlist = fixture.debugElement.queryAll(
+      By.css('.item-container')
+    );
+    itemContainerlist[0].nativeElement.click();
+    const id = itemContainerlist[0].nativeElement.getAttribute('id');
+    // console.log(id);
+    expect(mockRouter.navigate).toHaveBeenCalledWith([`/cart-details/${id}`]);
   });
 });
